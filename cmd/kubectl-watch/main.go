@@ -243,9 +243,9 @@ func main() {
 	var formatter EventFormatter
 	switch *outFormat {
 	default:
-		formatter = DefaultFormatter{}
+		formatter = &DefaultFormatter{}
 	case "trace":
-		formatter = TraceEventFormatter{}
+		formatter = &TraceEventFormatter{}
 		*colorize = false
 	}
 

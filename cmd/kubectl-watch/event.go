@@ -35,30 +35,38 @@ type EventFormatter interface {
 
 type DefaultFormatter struct{}
 
-func (_ DefaultFormatter) Preamble() string {
+func (f *DefaultFormatter) Preamble() string {
 	return ""
 }
 
-func (_ DefaultFormatter) Epilogue() string {
+func (f *DefaultFormatter) Epilogue() string {
 	return ""
 }
 
-func (_ DefaultFormatter) Format(event *Event) string {
+func (f *DefaultFormatter) Format(event *Event) string {
 	const timeFormat = "2006-01-02 15:04:05.000"
 	return fmt.Sprintf("[%s] %s\n%s\n", event.Timestamp.Format(timeFormat), event.Name, event.Data)
 }
 
-type TraceEventFormatter struct{}
-
-func (_ TraceEventFormatter) Preamble() string {
-	return "[\n"
+type TraceEventFormatter struct {
+	needsComma bool
 }
 
-func (_ TraceEventFormatter) Epilogue() string {
-	return "]\n"
+func (f *TraceEventFormatter) Preamble() string {
+	return "["
 }
 
-func (_ TraceEventFormatter) Format(event *Event) string {
-	return fmt.Sprintf(`{"ts": %f, "name": %q, "ph": "i", "pid": 1, "tid": 1, "s": "t", "args": [%q]},
-`, float64(event.Timestamp.UnixNano())/1000, event.Name, event.Data)
+func (f *TraceEventFormatter) Epilogue() string {
+	return "\n]\n"
+}
+
+func (f *TraceEventFormatter) Format(event *Event) string {
+	comma := ""
+	if f.needsComma {
+		comma = ","
+	}
+	f.needsComma = true
+	return fmt.Sprintf(`%s
+{"ts": %f, "name": %q, "ph": "i", "pid": 1, "tid": 1, "s": "t", "args": [%q]}`,
+		comma, float64(event.Timestamp.UnixNano())/1000, event.Name, event.Data)
 }
