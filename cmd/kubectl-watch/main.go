@@ -17,6 +17,7 @@ limitations under the License.
 package main
 
 import (
+	"context"
 	"fmt"
 	"strings"
 	"time"
@@ -135,7 +136,7 @@ func watchResource(dc dynamic.Interface, gvr schema.GroupVersionResource, out ch
 	for {
 		var w watch.Interface
 		err := wait.PollImmediateUntil(time.Second, func() (done bool, err error) {
-			w, err = dc.Resource(gvr).Watch(metav1.ListOptions{})
+			w, err = dc.Resource(gvr).Watch(context.Background(), metav1.ListOptions{})
 			if err != nil {
 				if errors.IsNotFound(err) {
 					return false, nil
@@ -161,7 +162,7 @@ func watchResource(dc dynamic.Interface, gvr schema.GroupVersionResource, out ch
 
 func cacheResource(dc dynamic.Interface, gvr schema.GroupVersionResource) map[string]*unstructured.Unstructured {
 	cache := map[string]*unstructured.Unstructured{}
-	objs, err := dc.Resource(gvr).List(metav1.ListOptions{})
+	objs, err := dc.Resource(gvr).List(context.Background(), metav1.ListOptions{})
 	if err == nil {
 		for _, o := range objs.Items {
 			cache[getKey(&o)] = o.DeepCopy()
