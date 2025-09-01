@@ -3,7 +3,7 @@ module github.com/skaslev/kubectl-watch
 go 1.24.2
 
 require (
-	github.com/spf13/pflag v1.0.7
+	github.com/spf13/pflag v1.0.8
 	github.com/yudai/gojsondiff v1.0.0
 	k8s.io/apimachinery v0.33.4
 	k8s.io/client-go v0.33.4
