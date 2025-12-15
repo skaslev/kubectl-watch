@@ -5,7 +5,7 @@ go 1.24.2
 require (
 	github.com/spf13/pflag v1.0.10
 	github.com/yudai/gojsondiff v1.0.0
-	k8s.io/apimachinery v0.34.2
+	k8s.io/apimachinery v0.34.3
 	k8s.io/client-go v0.34.2
 	k8s.io/klog v1.0.0
 )
