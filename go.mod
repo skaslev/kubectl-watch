@@ -1,16 +1,17 @@
 module github.com/skaslev/kubectl-watch
 
-go 1.24.2
+go 1.25.0
 
 require (
 	github.com/spf13/pflag v1.0.10
 	github.com/yudai/gojsondiff v1.0.0
-	k8s.io/apimachinery v0.34.3
+	k8s.io/apimachinery v0.35.0
 	k8s.io/client-go v0.34.3
 	k8s.io/klog v1.0.0
 )
 
 require (
+	github.com/Masterminds/semver/v3 v3.4.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/emicklei/go-restful/v3 v3.13.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.9.0 // indirect
